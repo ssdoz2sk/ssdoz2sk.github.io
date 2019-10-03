@@ -28,7 +28,7 @@
       }
       aryNum.shuffle();
       ret += "<div class='flow no-break'><table border='0'>";
-      ret+="<tr><td class='index' colspan="+size+">"+(+index+1)+"</td></tr>";
+      ret+="<tr><td class='index' colspan="+size+">"+String(+index+1).padStart(3, '0')+"</td></tr>";
       for(i=0;i<size;i++){
         ret+="<tr>";
         for(j=0;j<size;j++){
