@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>線上賓果產生器</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style>
+@media print{
+  .no-break {
+    break-inside: avoid;
+  }
+}
+</style>
+<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+      $('#generate').click(function(){
+        $("#loading").show();
+        $("#result").html("");
+        var rethtml = "";
+        for(var i=0;i<$("#c").val();i++){
+          rethtml += getBingoTable($("#w").val());
+        }
+        $("#result").html(rethtml);
+        $("#printbutton").show();
+        $("#loading").hide();
+      });
+    });
+
+    function getBingoTable(size){
+      var ret = "";
+      var aryNum = new Array();
+      for(i=0;i<size*size;i++){
+        aryNum[i]=i+1;
+      }
+      aryNum.shuffle();
+      ret += "<div class='flow no-break'><table border='1'>";
+      for(i=0;i<size;i++){
+        ret+="<tr>";
+        for(j=0;j<size;j++){
+          ret+="<td>";
+          ret+=aryNum[i*size+j];
+          ret+="</td>";
+        }
+        ret+="</tr>";
+      }
+      ret +="</table></div>";
+      
+      return ret;
+    }
+    
+    Array.prototype.shuffle = function(){
+      var s=[];
+      while(this.length){
+        s.push(this.splice(Math.random() * this.length, 1));
+      }
+      while(s.length){
+        this.push(s.pop());
+      }
+      return this;
+    }
+
+    </script>
+</script>
+<style>
+  .flow {
+    margin: 1em;
+    float: left;
+
+  }
+  table {
+    border-collapse: collapse;
+  }
+  td {
+    text-align: center;
+    width: 2em;
+    height: 2em;
+    font-size: 1em
+    
+  }
+  @media print
+  {
+    .noprint {
+      display: none;
+    }
+  }
+</style>
+</head>
+<body>
+<h1>線上賓果產生器</h1>
+<div class='noprint'>
+長寬:<input type=text size=5 id="w" name="w" value="5">&nbsp;&nbsp;組數:<input type=text size=5 id="c" name="c" value="12"><input type=button value="產生" id="generate">
+<div>請於上方輸入您賓果棋盤的長寬, 需要組數, 並按下[產生]就能產生所需要的賓果棋盤</div>
+<div id="printbutton" style="display: none"><input type=button value='列印' onclick='window.print();'></div>
+</div>
+<div id="loading" style="display: none"><img src="ajax-loader.gif" /></div>
+<div id="result" />
+</body>
+</html>
