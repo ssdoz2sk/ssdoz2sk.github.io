@@ -3,13 +3,6 @@
 <head>
 <title>線上賓果產生器</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<style>
-@media print{
-  .no-break {
-    break-inside: avoid;
-  }
-}
-</style>
 <script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>
 <script type="text/javascript">
@@ -19,7 +12,7 @@
         $("#result").html("");
         var rethtml = "";
         for(var i=0;i<$("#c").val();i++){
-          rethtml += getBingoTable($("#w").val());
+          rethtml += getBingoTable($("#w").val(), i);
         }
         $("#result").html(rethtml);
         $("#printbutton").show();
@@ -27,18 +20,19 @@
       });
     });
 
-    function getBingoTable(size){
+    function getBingoTable(size, index){
       var ret = "";
       var aryNum = new Array();
       for(i=0;i<size*size;i++){
         aryNum[i]=i+1;
       }
       aryNum.shuffle();
-      ret += "<div class='flow no-break'><table border='1'>";
+      ret += "<div class='flow no-break'><table border='0'>";
+      ret+="<tr><td class='index' colspan="+size+">"+String(+index+1).padStart(3, '0')+"</td></tr>";
       for(i=0;i<size;i++){
         ret+="<tr>";
         for(j=0;j<size;j++){
-          ret+="<td>";
+          ret+="<td class='bingo'>";
           ret+=aryNum[i*size+j];
           ret+="</td>";
         }
@@ -64,9 +58,9 @@
 </script>
 <style>
   .flow {
-    margin: 1em;
+    padding: 1em;
     float: left;
-
+    border: 1px dashed grey;
   }
   table {
     border-collapse: collapse;
@@ -75,23 +69,34 @@
     text-align: center;
     width: 2em;
     height: 2em;
-    font-size: 1em
-    
+    font-size: 1em;
+  }
+  td.bingo {
+    border: 1px solid black;
+  }
+  td.index {
+    text-align: right;
+    font-size: .75em;
   }
   @media print
   {
     .noprint {
       display: none;
     }
+    .no-break {
+      break-inside: avoid;
+    }
   }
 </style>
 </head>
 <body>
-<h1>線上賓果產生器</h1>
 <div class='noprint'>
-長寬:<input type=text size=5 id="w" name="w" value="5">&nbsp;&nbsp;組數:<input type=text size=5 id="c" name="c" value="12"><input type=button value="產生" id="generate">
-<div>請於上方輸入您賓果棋盤的長寬, 需要組數, 並按下[產生]就能產生所需要的賓果棋盤</div>
-<div id="printbutton" style="display: none"><input type=button value='列印' onclick='window.print();'></div>
+    <h1>線上賓果產生器</h1>
+    長寬:<input type=text size=5 id="w" name="w" value="5">
+    組數:<input type=text size=5 id="c" name="c" value="12">
+    <input type=button value="產生" id="generate">
+    <div>請於上方輸入您賓果棋盤的長寬, 需要組數, 並按下[產生]就能產生所需要的賓果棋盤</div>
+    <div id="printbutton" style="display: none"><input type=button value='列印' onclick='window.print();'></div>
 </div>
 <div id="loading" style="display: none"><img src="ajax-loader.gif" /></div>
 <div id="result" />
