@@ -17,6 +17,7 @@
         $("#result").html(rethtml);
         $("#printbutton").show();
         $("#loading").hide();
+        generateWatermark()
       });
     });
 
@@ -41,6 +42,26 @@
       ret +="</table></div>";
       
       return ret;
+    }
+
+    function generateWatermark() {
+      var text = $("#lb").val()
+      var canvas = document.createElement('canvas') 
+
+      canvas.width = 200
+      canvas.height = 160
+      canvas.style.width = '200px'
+      canvas.style.height = '160px'
+      var ctx = canvas.getContext('2d')
+      ctx.rotate(Math.PI/6)
+      ctx.fillStyle = "#aaa";
+
+      ctx.font = "bold 24px verdana, sans-serif ";
+      ctx.fillText(text, 10, 10)
+
+      var dataUrl = canvas.toDataURL()
+      console.log(dataUrl)
+      $("#result").css('background-image', 'url(' + dataUrl + ')');
     }
     
     Array.prototype.shuffle = function(){
@@ -94,11 +115,12 @@
     <h1>線上賓果產生器</h1>
     長寬:<input type=text size=5 id="w" name="w" value="5">
     組數:<input type=text size=5 id="c" name="c" value="12">
+    標籤浮水印:<input type=text id="lb" name="lb">
     <input type=button value="產生" id="generate">
     <div>請於上方輸入您賓果棋盤的長寬, 需要組數, 並按下[產生]就能產生所需要的賓果棋盤</div>
     <div id="printbutton" style="display: none"><input type=button value='列印' onclick='window.print();'></div>
 </div>
 <div id="loading" style="display: none"><img src="ajax-loader.gif" /></div>
-<div id="result" />
+<div id="result" style="width:auto; display:inline-block !important; display:inline;"/>
 </body>
 </html>
